@@ -1,0 +1,64 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cloudmart-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=cloudmart
+      - DB_USER=cloudmart_admin
+      - DB_PASSWORD=cloudmart_password
+    volumes:
+      - ./backend/src:/app/src
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - cloudmart-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cloudmart-frontend
+    ports:
+      - "80:80"
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - cloudmart-net
+
+  db:
+    image: mysql:8.0
+    container_name: cloudmart-db
+    environment:
+      - MYSQL_DATABASE=cloudmart
+      - MYSQL_USER=cloudmart_admin
+      - MYSQL_PASSWORD=cloudmart_password
+      - MYSQL_ROOT_PASSWORD=cloudmart_root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cloudmart-net
+
+networks:
+  cloudmart-net:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local

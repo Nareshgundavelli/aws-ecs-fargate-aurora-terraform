@@ -1,0 +1,35 @@
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+*.tfvars
+terraform.tfvars
+.terraform.lock.hcl
+crash.log
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Node / dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+coverage/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
