@@ -116,6 +116,9 @@
 
   ---
 
+<img width="1774" height="887" alt="image" src="https://github.com/user-attachments/assets/93cea7ed-fca6-4522-a539-c000fc764deb" />
+
+
   ## Project Features
 
   ### 🖥️ React Frontend
